@@ -1,6 +1,7 @@
 const route = require('express').Router();
 const MemberModel = require('../models/member');
 const bcrypt = require('bcryptjs');
+const auth = require('../middlewares/authcheck')
 
 route.get('/register', (req,res)=> {
     res.render('register.ejs',{
@@ -43,12 +44,22 @@ route.post('/login', async(req,res)=>{
         if(!validPass) return res.status(400).send({message:"Password is incorrect "});
 
         //pass validation 
-
-        res.send({message:"Logged in Welcome "})
+        req.session.isAuth = true
+        res.redirect('/home')
     }
     catch(error){
         res.status(400).send(error);
     }
+})
+
+route.get('/logout', auth,(req,res)=>{
+    req.session.destroy( (error)=>{
+        if(error){
+            res.send(error).status(501)
+        }
+    })
+
+    res.redirect('/index')
 })
 
 

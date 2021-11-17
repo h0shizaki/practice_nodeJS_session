@@ -18,6 +18,7 @@ const store = new MongoDBSession({
 //set middleware
 app.use(session({
     secret: 'Kawmankai',
+    cookie:{},
     resave: false,
     saveUninitialized: false ,
     store: store
@@ -33,32 +34,29 @@ app.set('view engine', 'ejs');
 //import route
 const indexRoute = require('./routes/index');
 const authRoute = require('./routes/auth')
+const homeRoute = require('./routes/home')
 
 
 //test session
-app.get("/" , (req,res)=>{
-    req.session.isAuth = true;
-    res.send(req.session)
-})
+// app.get("/" , (req,res)=>{
+//     req.session.isAuth = true;
+//     res.send(req.session)
+// })
 
-app.get("/logout" , (req,res)=>{
-    req.session.isAuth = false;
-    res.send(req.session)
-})
+// app.get("/logout" , (req,res)=>{
+//     req.session.isAuth = false;
+//     res.send(req.session)
+// })
 
-app.get("/secret" , (req,res)=>{
-    if(!req.session.isAuth) return res.status(301).send("Please login")
+// app.get("/secret" , (req,res)=>{
+//     if(!req.session.isAuth) return res.status(301).send("Please login")
 
-    res.send({Secret:"My friend's watch is here"});
-})
-
-
-
-
-
+//     res.send({Secret:"My friend's watch is here"});
+// })
 
 app.use('/index', indexRoute);
 app.use('/auth', authRoute);
+app.use('/home', homeRoute);
 
 const PORT = process.env.PORT || 8080 ;
 app.listen(PORT, ()=>console.log(`Server is running on Port : ${PORT}`))
