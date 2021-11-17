@@ -18,7 +18,9 @@ const store = new MongoDBSession({
 //set middleware
 app.use(session({
     secret: 'Kawmankai',
-    cookie:{},
+    cookie:{
+        maxAge: 60000
+    },
     resave: false,
     saveUninitialized: false ,
     store: store

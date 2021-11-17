@@ -1,7 +1,7 @@
 function isAuth(req,res,next){
     if(req.session.isAuth) next()
     else{
-        res.redirect('auth/login')
+        res.redirect('../auth/login')
     }
 }
 

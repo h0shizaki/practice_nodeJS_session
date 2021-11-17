@@ -45,6 +45,7 @@ route.post('/login', async(req,res)=>{
 
         //pass validation 
         req.session.isAuth = true
+        req.session.user_id = user._id;
         res.redirect('/home')
     }
     catch(error){
